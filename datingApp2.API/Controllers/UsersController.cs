@@ -5,13 +5,16 @@ using System.Threading.Tasks;
 using AutoMapper;
 using datingApp2.API.Data;
 using datingApp2.API.Dtos;
+using datingApp2.API.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace datingApp2.API.Controllers
 {
+    [ServiceFilter(typeof(LogUserActivity))]
     [Authorize]
     [Route("api/[controller]")]
+    [ApiController]
     
     public class UsersController : ControllerBase
     {
@@ -31,7 +34,7 @@ namespace datingApp2.API.Controllers
             return Ok(usersToReturn);
         }
 
-        [HttpGet("{id}", Name = GetUser)]
+        [HttpGet("{id}", Name = "GetUser")]
         public async Task<IActionResult> GetUser(int id)
         {
             var user = await _repo.GetUser(id);
